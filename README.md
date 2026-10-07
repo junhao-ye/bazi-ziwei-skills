@@ -1,0 +1,80 @@
+# bazi-ziwei-skills
+
+AI 八字 + 紫微斗数排盘与综合印证 Skill
+
+精准排盘（不靠 LLM 猜）· 三种分析模式 · 一键生成水墨风 HTML 命盘海报
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+
+简体中文 | [English](./README.en.md)
+
+<br>
+
+<a href="./docs/jietu.png" target="_blank"><img src="./docs/jietu.png" alt="综合印证海报示例" width="680"></a>
+
+<sub>综合印证海报示例（合成命主，仅供展示）</sub>
+
+---
+
+## 这是什么
+
+一个遵循 [SKILL.md 开放标准](https://code.claude.com/docs/en/skills) 的命理分析 Skill，可装入 Claude Code / Claude Desktop / Codex / Cursor / Workbuddy 等支持该标准的 AI Agent。
+
+它做三件大模型单独做不好的事：
+
+1. **精准排盘**：八字四柱、紫微十二宫、大运流年由内置算法库计算，**不让 LLM 自己排**——纯 LLM 排盘常把日柱、日主、格局算错，一步错则全盘失真。
+2. **格局补层**：在排盘之上补一层"格局 / 旺衰 / 调候 / 刑冲合害 / 盖头截脚"算法，喂给 LLM 做有依据的分析。
+3. **综合印证**：把八字与紫微两套独立体系的结论做交叉对账——主轴是否一致、人生窗口是否对齐、冲突时听谁。
+
+## ✨ 特性
+
+- 🎯 **算法精准**：排盘核心源自开源项目 mingpan（八字，Apache-2.0）+ iztro（紫微，MIT），经实测对齐；补层算法经 7 组案例多维度回归验证
+- 🧭 **三种分析模式**：八字独立 / 紫微独立 / 八字+紫微综合印证
+- 📜 **两种呈现形态**：Markdown 长文深度版 + 🎴 单文件 HTML 海报版（综合印证专享）
+- 🖼️ **水墨风命盘海报**：现代极简 × 中式水墨，含紫微12宫盘 + 八字四柱盘 + 六维交叉对账，可截图分享
+- 🛠️ **跨 Agent**：一份 SKILL.md，多个主流 Agent 通用
+- 🔒 **隐私优先**：所有排盘在本地完成，无需联网；运行产物默认 gitignore
+
+## 安装
+
+1. 克隆本仓库
+2. `cd calculator && npm install`
+3. 注册到你的 Agent（参考各 Agent 的 SKILL.md 加载方式）
+
+## 使用
+
+详见 [SKILL.md](./SKILL.md)。命令行直接排盘（不经 Agent）：
+
+```bash
+cd calculator
+npx tsx run-chart.ts --year=2000 --month=1 --day=1 --hour=12 --minute=0 --gender=male
+```
+
+## 目录结构
+
+```
+├── SKILL.md          ← Skill 定义（触发条件、执行流程）
+├── calculator/         ← 排盘引擎（mingpan 八字 + iztro 紫微 + enrichBazi 补层）
+├── prompts/             ← 分析提示词
+└── templates/            ← 海报模板
+```
+
+## 🏗️ 工作原理
+
+排盘（算法层，确定性计算）→ 文本盘转换（结构化文本）→ LLM 分析（按提示词产出结论）→（可选）渲染 HTML 海报。
+
+**关键设计**：LLM 只负责"分析"，不负责"排盘"和"画 HTML"。排盘交给确定性算法，HTML 视觉交给固定模板，LLM 产出的结构化内容填进模板槽位——三者各司其职，互不污染。
+
+## 🙏 致谢
+
+- 八字排盘核心算法：[mingpan](https://github.com/ChesterRa/mingpan)（Apache-2.0）
+- 紫微斗数排盘核心算法：[iztro](https://github.com/SylarLong/iztro)（MIT）
+- 农历日期转换：[lunar-typescript](https://github.com/6tail/lunar-typescript)（MIT）
+
+## ⚠️ 免责声明
+
+本分析基于传统八字与紫微斗数理论框架，仅供文化研究与娱乐参考，不构成医疗、投资、婚姻、法律等任何决策依据。命运由个人选择与客观环境共同塑造。
+
+## 📄 License
+
+本项目采用 [MIT License](./LICENSE) 开源协议。
