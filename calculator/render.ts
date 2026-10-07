@@ -57,7 +57,10 @@ function chartToFlat(chart: any, currentYear?: number): Record<string, any> {
   // 简化: 默认根据命宫地支查命主, 身宫地支查身主
   const MING_ZHU = { '子':'贪狼','丑':'巨门','寅':'禄存','卯':'文曲','辰':'廉贞','巳':'武曲','午':'破军','未':'武曲','申':'廉贞','酉':'文曲','戌':'禄存','亥':'巨门' };
   const SHEN_ZHU = { '子':'火星','丑':'天相','寅':'天梁','卯':'天同','辰':'文昌','巳':'天机','午':'火星','未':'天相','申':'天梁','酉':'天同','戌':'文昌','亥':'天机' };
-  const mingDizhi = zw.gongs[0].dizhi;
+  // 命宫必须用 iztro 算出的 mingGongIndex 反查 (DIZHI[10]=戌)，
+  // 绝不能用 gongs[0].dizhi —— 那是十二宫数组首宫(官禄宫=寅)，会错把红框/命主画到寅。
+  const mingDizhi =
+    DIZHI[zw.mingGongIndex] ?? zw.gongs.find((g: any) => g.gong === '命宫')?.dizhi;
   const shenDizhi = DIZHI[zw.shenGongIndex];
   out['ziwei.ming_zhu'] = (MING_ZHU as any)[mingDizhi] || '-';
   out['ziwei.shen_zhu'] = (SHEN_ZHU as any)[shenDizhi] || '-';

@@ -38,7 +38,10 @@ function dumpZiwei(z: any, bi: any): string[] {
   lines.push(`│ ├阴阳 : ${z.yinYang || ''}`);
   lines.push(`│ ├五行局 : ${z.wuXingJu?.name || ''}`);
   const DIZHI = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
-  const mingDizhi = z.gongs[0]?.dizhi;
+  // 命宫必须用 iztro 算出的 mingGongIndex 反查 (DIZHI[10]=戌)，
+  // 绝不能用 gongs[0].dizhi —— 那是十二宫数组首宫(官禄宫=寅)，会错印成寅。
+  const mingDizhi =
+    DIZHI[z.mingGongIndex] ?? z.gongs.find((g: any) => g.gong === '命宫')?.dizhi;
   const shenDizhi = DIZHI[z.shenGongIndex];
   lines.push(`│ └命宫=${mingDizhi}  身宫=${shenDizhi}`);
   lines.push('│');
