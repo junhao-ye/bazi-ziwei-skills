@@ -16,19 +16,19 @@
 <table>
 <tr>
 <td width="50%">
-<a href="./docs/poster-full.png" target="_blank">
-<img src="./docs/poster-overview.webp" alt="総合検証ポスター - 概要カード（ファーストビュー）">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-overview.webp" alt="総合検証ポスター - 概要カード（ファーストビュー）">
 </a>
 </td>
 <td width="50%">
-<a href="./docs/jietu.png" target="_blank">
-<img src="./docs/jietu.png" alt="総合検証ポスター - 全体レイアウト">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-full.webp" alt="総合検証ポスター - 全体レイアウト（9 モジュール）">
 </a>
 </td>
 </tr>
 </table>
 
-<sub>総合検証ポスターのイメージ（左：概要カードのファーストビュー／右：全体レイアウト）。紫微斗数十二宮盤の朱砂色の枠が「命宮」です——本リポジトリではそのズレのバグを修正済みです。</sub>
+<sub>総合検証ポスターのイメージ（左：概要カードのファーストビュー／右：全体レイアウト全ページ、クリックで拡大）。紫微斗数十二宮盤の朱砂色の枠が「命宮」です——本リポジトリではそのズレのバグを修正済みで、枠は正しい命宮の地支に表示されます。</sub>
 
 ---
 

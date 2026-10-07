@@ -14,19 +14,19 @@
 <table>
 <tr>
 <td width="50%">
-<a href="./docs/poster-full.png" target="_blank">
-<img src="./docs/poster-overview.webp" alt="综合印证海报 - 速览卡（首屏）">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-overview.webp" alt="综合印证海报 - 速览卡（首屏）">
 </a>
 </td>
 <td width="50%">
-<a href="./docs/jietu.png" target="_blank">
-<img src="./docs/jietu.png" alt="综合印证海报 - 完整版式">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-full.webp" alt="综合印证海报 - 完整版式（九个模块）">
 </a>
 </td>
 </tr>
 </table>
 
-<sub>综合印证海报示意（左：速览卡首屏；右：完整版式）。注意紫微十二宫盘中朱砂红框标注的「命宫」——本仓库已修复其错位 bug。</sub>
+<sub>综合印证海报示意（左：速览卡首屏；右：完整版式全页，点击放大）。注意紫微十二宫盘中朱砂红框标注的「命宫」——本仓库已修复其错位 bug，红框现正确落在命宫地支。</sub>
 
 ---
 

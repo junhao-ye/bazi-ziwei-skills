@@ -14,19 +14,19 @@ Deterministic algorithmic charting (no LLM guesswork) · Three analysis modes ·
 <table>
 <tr>
 <td width="50%">
-<a href="./docs/poster-full.png" target="_blank">
-<img src="./docs/poster-overview.webp" alt="Cross-verification poster — overview card (first screen)">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-overview.webp" alt="Cross-verification poster — overview card (first screen)">
 </a>
 </td>
 <td width="50%">
-<a href="./docs/jietu.png" target="_blank">
-<img src="./docs/jietu.png" alt="Cross-verification poster — full layout">
+<a href="./docs/v2-full.png" target="_blank">
+<img src="./docs/v2-full.webp" alt="Cross-verification poster — full layout (nine modules)">
 </a>
 </td>
 </tr>
 </table>
 
-<sub>Cross-verification poster (left: overview card / first screen; right: full layout). Note the vermillion-framed 命宮 (Life Palace) on the 12-palace Zi Wei chart — this repository has fixed its mis-placement bug.</sub>
+<sub>Cross-verification poster (left: overview card / first screen; right: full layout, click to enlarge). Note the vermillion-framed 命宮 (Life Palace) on the 12-palace Zi Wei chart — this repository has fixed its mis-placement bug, and the frame now lands on the correct earthly branch.</sub>
 
 ---
 
