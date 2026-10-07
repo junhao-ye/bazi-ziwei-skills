@@ -4,16 +4,31 @@
 
 精密アルゴリズムによる命盤作成（LLM に推測させない）· 3 つの分析モード · ワンクリックで水墨風 HTML 命盤ポスター
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+
 ![Language](https://img.shields.io/badge/言語-日本語%20%7C%20简中%20%7C%20繁中%20%7C%20EN-blue)
 
 [繁體中文](./README.zh-TW.md) | [简体中文](./README.md) | **日本語** | [English](./README.en.md)
 
-<br>
+  
 
-<a href="./docs/jietu.png" target="_blank"><img src="./docs/jietu.png" alt="総合検証ポスターの例" width="680"></a>
 
-<sub>総合検証ポスターの例（合成した命主によるデモ用サンプルです）</sub>
+<table>
+<tr>
+<td width="50%">
+<a href="./docs/poster-full.png" target="_blank">
+<img src="./docs/poster-overview.webp" alt="総合検証ポスター - 概要カード（ファーストビュー）">
+</a>
+</td>
+<td width="50%">
+<a href="./docs/jietu.png" target="_blank">
+<img src="./docs/jietu.png" alt="総合検証ポスター - 全体レイアウト">
+</a>
+</td>
+</tr>
+</table>
+
+<sub>総合検証ポスターのイメージ（左：概要カードのファーストビュー／右：全体レイアウト）。紫微斗数十二宮盤の朱砂色の枠が「命宮」です——本リポジトリではそのズレのバグを修正済みです。</sub>
 
 ---
 

@@ -11,9 +11,22 @@
 
 <br>
 
-<a href="./docs/jietu.png" target="_blank"><img src="./docs/jietu.png" alt="综合印证海报示例" width="680"></a>
+<table>
+<tr>
+<td width="50%">
+<a href="./docs/poster-full.png" target="_blank">
+<img src="./docs/poster-overview.webp" alt="综合印证海报 - 速览卡（首屏）">
+</a>
+</td>
+<td width="50%">
+<a href="./docs/jietu.png" target="_blank">
+<img src="./docs/jietu.png" alt="综合印证海报 - 完整版式">
+</a>
+</td>
+</tr>
+</table>
 
-<sub>综合印证海报示例（合成命主，仅供展示）</sub>
+<sub>综合印证海报示意（左：速览卡首屏；右：完整版式）。注意紫微十二宫盘中朱砂红框标注的「命宫」——本仓库已修复其错位 bug。</sub>
 
 ---
 

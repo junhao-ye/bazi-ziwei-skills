@@ -11,9 +11,22 @@ Deterministic algorithmic charting (no LLM guesswork) · Three analysis modes ·
 
 <br>
 
-<a href="./docs/jietu.png" target="_blank"><img src="./docs/jietu.png" alt="Cross-verification poster example" width="680"></a>
+<table>
+<tr>
+<td width="50%">
+<a href="./docs/poster-full.png" target="_blank">
+<img src="./docs/poster-overview.webp" alt="Cross-verification poster — overview card (first screen)">
+</a>
+</td>
+<td width="50%">
+<a href="./docs/jietu.png" target="_blank">
+<img src="./docs/jietu.png" alt="Cross-verification poster — full layout">
+</a>
+</td>
+</tr>
+</table>
 
-<sub>Cross-verification poster example (synthetic subject, for demonstration only)</sub>
+<sub>Cross-verification poster (left: overview card / first screen; right: full layout). Note the vermillion-framed 命宮 (Life Palace) on the 12-palace Zi Wei chart — this repository has fixed its mis-placement bug.</sub>
 
 ---
 
