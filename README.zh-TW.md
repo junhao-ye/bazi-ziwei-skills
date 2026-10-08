@@ -47,6 +47,9 @@
 - 📜 **兩種呈現形態**：Markdown 長文深度版 ＋ 🎴 單檔 HTML 海報版（綜合印證專享）
 - 🖼️ **水墨風命盤海報**：現代極簡 × 中式水墨，含紫微 12 宮盤＋八字四柱盤＋六維交叉對帳，可截圖分享
 - 🐛 **已修復顯示層 bug**：命宮紅框／命主星／文本盤曾誤落「寅（官祿宮）」，現已修正為正確命宮地支（[PR #1](https://github.com/junhao-ye/bazi-ziwei-skills/pull/1)）
+- 🛡️ **渲染前強校驗**：海報生成前須通過 `scripts/validate-analysis.ts` 檢查——欄位完整性、固定數量、列舉合法性、配對一致性。渲染腳本對缺失欄位是靜默兜底的，這道校驗把問題提前暴露成可讀清單
+- 🧭 **完整路由契約**：五條分支各有明確輸入／輸出／落盤約定，含 fallback 與誤路由恢復（改主意不必重排盤）
+- 📐 **結構化文檔**：[SKILL.md](./SKILL.md) 執行時路由 ＋ [SPEC.md](./SPEC.md) 維護契約 ＋ [SOURCES.md](./SOURCES.md) 來源與決策記錄
 - 🛠️ **跨 Agent**：一份 SKILL.md，多個主流 Agent 通用
 - 🔒 **隱私優先**：所有排盤在本機完成，無需聯網；執行產物預設 gitignore
 
@@ -79,6 +82,9 @@ npx tsx run-chart.ts --year=2000 --month=1 --day=1 --hour=12 --minute=0 --gender
 # Step 2 轉文本盤（產出 chart.txt）
 npx tsx dump-text.ts --input=chart.json --output=chart.txt
 
+# Step 2.5 校驗 analysis.json（海報模式必做，不通過不得渲染）
+npx tsx ../scripts/validate-analysis.ts ../analysis.json
+
 # Step 3（綜合印證海報）渲染 HTML
 npx tsx render.ts --chart=chart.json --analysis=analysis.json \
   --template=../templates/report-zonghe-poster.html \
@@ -87,16 +93,22 @@ npx tsx render.ts --chart=chart.json --analysis=analysis.json \
 
 也可以完全不經 Agent，直接用命令列排盤。
 
+> **為什麼要 Step 2.5**：渲染腳本對模板中未匹配的佔位符會統一替換成 `-`——缺欄位的 `analysis.json` 不會報錯，只會安靜地渲染出一張滿是破折號的海報。校驗腳本把這個靜默失敗提前暴露成可讀的錯誤清單。
+
 ## 📁 目錄結構
 
 ```
-├── SKILL.md              ← Skill 定義（觸發條件、執行流程）
+├── SKILL.md              ← 執行時路由（觸發條件、決策門、執行流程、失敗模式）
+├── SPEC.md               ← 維護契約（意圖／範圍／執行時契約／校驗門／已知限制）
+├── SOURCES.md            ← 來源與決策記錄（上游依賴、修復決策、缺口清單）
 ├── calculator/           ← 排盤引擎（mingpan 八字＋iztro 紫微＋enrichBazi 補層）
 │   ├── run-chart.ts      ← 排盤入口：生辰 → JSON
 │   ├── dump-text.ts      ← JSON → 文墨天機風文本盤
 │   ├── render.ts         ← chart.json ＋ analysis.json ＋ 模板 → HTML
 │   ├── engine/           ← 排盤引擎適配層
 │   └── bazi-enrich/      ← enrichBazi 補層（格局／旺衰／調候／關係／整柱）
+├── scripts/              ← 校驗腳本
+│   └── validate-analysis.ts  ← 渲染前校驗 analysis.json
 ├── prompts/              ← 分析提示詞（八字／紫微／綜合印證／海報 JSON）
 └── templates/            ← 海報模板與設計規範
 ```
@@ -107,10 +119,13 @@ npx tsx render.ts --chart=chart.json --analysis=analysis.json \
 排盤（演算法層，確定性計算）
   → 文本盤轉換（結構化文本）
   → LLM 分析（按提示詞產出結論）
+  → 校驗 analysis.json（結構性檢查）
   →（可選）渲染 HTML 海報
 ```
 
 **關鍵設計**：LLM 只負責「分析」，不負責「排盤」和「畫 HTML」。排盤交給確定性演算法，HTML 視覺交給固定模板，LLM 產出的結構化內容填進模板槽位——三者各司其職，互不污染。
+
+**路由設計**：五條分支（八字獨立／紫微獨立／綜合印證 × 長文／海報）各有明確的輸入、輸出與落盤約定。排盤產物與路由解耦——使用者中途改主意時切換分支即可，不必重排盤。
 
 ## 🙏 致謝
 

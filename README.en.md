@@ -47,6 +47,9 @@ It does three things a raw LLM is bad at:
 - 📜 **Two output formats**: in-depth Markdown essay + 🎴 single-file HTML poster (cross-verification exclusive)
 - 🖼️ **Ink-wash-style chart poster**: modern minimalist × Chinese ink-wash aesthetic, with a 12-palace Zi Wei chart + BaZi four-pillar chart + six-dimension cross-check, screenshot-friendly
 - 🐛 **Display-layer bug fixed**: the 命宮 (Life Palace) highlight, Life Ruler, and text chart were previously mis-placed on 寅 (Career Palace); now corrected to the true palace branch ([PR #1](https://github.com/junhao-ye/bazi-ziwei-skills/pull/1))
+- 🛡️ **Strict pre-render validation**: posters must pass `scripts/validate-analysis.ts` before rendering — field completeness, fixed item counts, enum validity, and pairing consistency. The renderer silently substitutes missing fields, so this check surfaces the problem early as a readable list
+- 🧭 **Full routing contract**: five branches each with explicit input / output / on-disk rules, including a fallback and mid-route recovery (changing your mind never means re-charting)
+- 📐 **Structured docs**: [SKILL.md](./SKILL.md) runtime router + [SPEC.md](./SPEC.md) maintenance contract + [SOURCES.md](./SOURCES.md) provenance and decision log
 - 🛠️ **Cross-Agent**: one SKILL.md, works across mainstream Agents
 - 🔒 **Privacy-first**: all charting runs locally, no network required; run artifacts are gitignored by default
 
@@ -79,6 +82,9 @@ npx tsx run-chart.ts --year=2000 --month=1 --day=1 --hour=12 --minute=0 --gender
 # Step 2 — Convert to readable text chart (produces chart.txt)
 npx tsx dump-text.ts --input=chart.json --output=chart.txt
 
+# Step 2.5 — Validate analysis.json (required for poster mode; no rendering if it fails)
+npx tsx ../scripts/validate-analysis.ts ../analysis.json
+
 # Step 3 — (Cross-verification poster) Render HTML
 npx tsx render.ts --chart=chart.json --analysis=analysis.json \
   --template=../templates/report-zonghe-poster.html \
@@ -87,16 +93,22 @@ npx tsx render.ts --chart=chart.json --analysis=analysis.json \
 
 You can also chart directly from the command line, without an Agent.
 
+> **Why Step 2.5**: the renderer replaces every unmatched placeholder in the template with `-`. A missing field in `analysis.json` therefore raises **no error** — you simply get a poster full of dashes. The validation script turns that silent failure into a readable error list up front.
+
 ## 📁 Directory structure
 
 ```
-├── SKILL.md              ← Skill definition (trigger conditions, execution flow)
+├── SKILL.md              ← Runtime router (triggers, decision gate, flow, failure modes)
+├── SPEC.md               ← Maintenance contract (intent / scope / runtime contract / validation gates / limitations)
+├── SOURCES.md            ← Provenance and decisions (upstream deps, fix decisions, open gaps)
 ├── calculator/           ← Charting engine (mingpan for BaZi + iztro for Zi Wei Dou Shu + enrichBazi layer)
 │   ├── run-chart.ts      ← Charting entry: birth data → JSON
 │   ├── dump-text.ts      ← JSON → readable tree-style text chart
 │   ├── render.ts         ← chart.json + analysis.json + template → HTML
 │   ├── engine/           ← Charting engine adapters
 │   └── bazi-enrich/      ← enrichBazi layer (pattern / strength / climate / relations / whole-pillar)
+├── scripts/              ← Validation scripts
+│   └── validate-analysis.ts  ← Pre-render validation of analysis.json
 ├── prompts/              ← Analysis prompts (BaZi / Zi Wei / cross-verification / poster JSON)
 └── templates/            ← Poster template & design spec
 ```
@@ -107,10 +119,13 @@ You can also chart directly from the command line, without an Agent.
 Charting (algorithmic layer, deterministic)
   → Text conversion (structured text)
   → LLM analysis (produces conclusions from prompts)
+  → Validate analysis.json (structural check)
   → (optional) HTML poster rendering
 ```
 
 **Key design**: the LLM is only responsible for "analysis," never for "charting" or "drawing HTML." Charting is handled by deterministic algorithms, visual presentation by a fixed template, and the LLM's structured output fills the template's slots — each layer stays in its lane.
+
+**Routing design**: five branches (BaZi only / Zi Wei only / cross-verification × essay / poster) each have explicit input, output, and on-disk rules. Charting artifacts are decoupled from routing — if you change your mind mid-way, you switch branches rather than re-charting.
 
 ## 🙏 Acknowledgements
 
