@@ -47,6 +47,9 @@
 - 📜 **两种呈现形态**：Markdown 长文深度版 + 🎴 单文件 HTML 海报版（综合印证专享）
 - 🖼️ **水墨风命盘海报**：现代极简 × 中式水墨，含紫微 12 宫盘 + 八字四柱盘 + 六维交叉对账，可截图分享
 - 🐛 **已修复显示层 bug**：命宫红框 / 命主星 / 文本盘曾误落"寅（官禄宫）"，现已修正为正确命宫地支（[PR #1](https://github.com/junhao-ye/bazi-ziwei-skills/pull/1)）
+- 🛡️ **渲染前强校验**：海报生成前须通过 `scripts/validate-analysis.ts` 检查——字段完整性、固定数量、枚举合法性、配对一致性。渲染脚本对缺失字段是静默兜底的，这道校验把问题提前暴露成可读清单
+- 🧭 **完整路由契约**：五条分支各有明确输入 / 输出 / 落盘约定，含 fallback 与误路由恢复（改主意不必重排盘）
+- 📐 **结构化文档**：[SKILL.md](./SKILL.md) 运行时路由 + [SPEC.md](./SPEC.md) 维护契约 + [SOURCES.md](./SOURCES.md) 来源与决策记录
 - 🛠️ **跨 Agent**：一份 SKILL.md，多个主流 Agent 通用
 - 🔒 **隐私优先**：所有排盘在本地完成，无需联网；运行产物默认 gitignore
 
@@ -79,6 +82,9 @@ npx tsx run-chart.ts --year=2000 --month=1 --day=1 --hour=12 --minute=0 --gender
 # Step 2 转文本盘（产出 chart.txt）
 npx tsx dump-text.ts --input=chart.json --output=chart.txt
 
+# Step 2.5 校验 analysis.json（海报模式必做，不通过不得渲染）
+npx tsx ../scripts/validate-analysis.ts ../analysis.json
+
 # Step 3（综合印证海报）渲染 HTML
 npx tsx render.ts --chart=chart.json --analysis=analysis.json \
   --template=../templates/report-zonghe-poster.html \
@@ -87,16 +93,22 @@ npx tsx render.ts --chart=chart.json --analysis=analysis.json \
 
 也可以完全不经过 Agent，直接用命令行排盘。
 
+> **为什么要 Step 2.5**：渲染脚本对模板中未匹配的占位符会统一替换成 `-`——缺字段的 `analysis.json` 不会报错，只会安静地渲染出一张满是破折号的海报。校验脚本把这个静默失败提前暴露成可读的错误清单。
+
 ## 📁 目录结构
 
 ```
-├── SKILL.md              ← Skill 定义（触发条件、执行流程）
+├── SKILL.md              ← 运行时路由（触发条件、决策门、执行流程、失败模式）
+├── SPEC.md               ← 维护契约（意图 / 范围 / 运行时契约 / 校验门 / 已知限制）
+├── SOURCES.md            ← 来源与决策记录（上游依赖、修复决策、缺口清单）
 ├── calculator/           ← 排盘引擎（mingpan 八字 + iztro 紫微 + enrichBazi 补层）
 │   ├── run-chart.ts      ← 排盘入口：生辰 → JSON
 │   ├── dump-text.ts      ← JSON → 文墨天机风文本盘
 │   ├── render.ts         ← chart.json + analysis.json + 模板 → HTML
 │   ├── engine/           ← 排盘引擎适配层
 │   └── bazi-enrich/      ← enrichBazi 补层（格局 / 旺衰 / 调候 / 关系 / 整柱）
+├── scripts/              ← 校验脚本
+│   └── validate-analysis.ts  ← 渲染前校验 analysis.json
 ├── prompts/              ← 分析提示词（八字 / 紫微 / 综合印证 / 海报 JSON）
 └── templates/            ← 海报模板与设计规范
 ```
@@ -107,10 +119,13 @@ npx tsx render.ts --chart=chart.json --analysis=analysis.json \
 排盘（算法层，确定性计算）
   → 文本盘转换（结构化文本）
   → LLM 分析（按提示词产出结论）
+  → 校验 analysis.json（结构性检查）
   →（可选）渲染 HTML 海报
 ```
 
 **关键设计**：LLM 只负责"分析"，不负责"排盘"和"画 HTML"。排盘交给确定性算法，HTML 视觉交给固定模板，LLM 产出的结构化内容填进模板槽位——三者各司其职，互不污染。
+
+**路由设计**：五条分支（八字独立 / 紫微独立 / 综合印证 × 长文 / 海报）各有明确的输入、输出与落盘约定。排盘产物与路由解耦——用户中途改主意时切换分支即可，不必重排盘。
 
 ## 🙏 致谢
 
