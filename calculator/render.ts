@@ -64,8 +64,10 @@ function chartToFlat(chart: any, currentYear?: number): Record<string, any> {
   const shenDizhi = DIZHI[zw.shenGongIndex];
   out['ziwei.ming_zhu'] = (MING_ZHU as any)[mingDizhi] || '-';
   out['ziwei.shen_zhu'] = (SHEN_ZHU as any)[shenDizhi] || '-';
-  // 子年斗君: 简化处理, 按生月+生时推算复杂, 暂用身宫前后位作占位
-  out['ziwei.zi_dou_jun'] = zw.ziDouJun || '-';
+  // 子年斗君: 尚未实作（顺数生月/逆数生时的基准宫，各派分歧未定）。
+  // 明确标注「本盘未计」，不留 "-"：破折号会被读成「这一盘斗君是空位」，
+  // 而事实是本工具链没有算这一项，两者含义不同。
+  out['ziwei.zi_dou_jun'] = zw.ziDouJun || '本盘未计';
   out['ziwei.wuxing_ju'] = zw.wuXingJu?.name || '-';
 
   // ============ CORE DATA ============
